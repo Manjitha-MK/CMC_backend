@@ -60,22 +60,16 @@ export function loginUser(req,res){
 
 }
 
+//delete user
 
-
-
-
-
-// delete user
-export function deleteUser(req, res){
-
+export function deleteUser(req,res){
     User.deleteOne({email : req.body.email}).then(() =>{
         res.json({
-            message : "Deleted user"
+            message : "User Deleted"
         })
     }).catch(() =>{
         res.json({
             message : "User not deleted"
         })
     })
-
 }
