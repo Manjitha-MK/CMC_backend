@@ -1,17 +1,17 @@
 import Product from "../models/products.js";
 
-export function getProducts(req, res) {
-  Product.find()
-    .then((productList) => {
-      res.json({
-        list: productList,
-      });
-    })
-    .catch(() => {
-      res.json({
-        message: "Products not found",
-      });
+export async function getProducts(req, res) {
+  try {
+    const productList = await Product.find();
+
+    res.json({
+      list: productList,
     });
+  } catch (e) {
+    res.json({
+      message: "error",
+    });
+  }
 }
 
 export function createProduct(req, res) {
