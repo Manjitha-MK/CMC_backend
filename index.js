@@ -2,17 +2,15 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-import productRouter from "./routes/productRouter.js";
 import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
 
 import dotenv, { config } from "dotenv";
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
-const mongoURL = process.env.MONGO_DB_URI
-  
+const mongoURL = process.env.MONGO_DB_URI;
 
 mongoose.connect(mongoURL, {});
 const connection = mongoose.connection;
@@ -42,8 +40,6 @@ app.use((req, res, next) => {
 
 //---------------------------------//
 
-
-app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 
 app.listen(5000, () => {
