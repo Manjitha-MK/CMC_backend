@@ -67,9 +67,8 @@ export function loginUser(req, res) {
             isBlocked: user.isBlocked,
             type: user.type,
             profilePicture: user.profilePicture,
-            
-          },process.env.SECRET
-          
+          },
+          process.env.SECRET
         );
 
         res.json({
@@ -83,6 +82,17 @@ export function loginUser(req, res) {
       }
     }
   });
+}
+
+export function isAdmin(req) {
+  if (req.user == null) {
+    return false;
+  }
+  if (req.user != "admin") {
+    return false;
+  }
+
+  return true;
 }
 
 //manjitha@example.com - securePassword123 - admin
