@@ -2,14 +2,11 @@ import Product from "../models/products.js";
 import { isAdmin } from "./userController.js";
 
 export function createProduct(req, res) {
-
-    if(!isAdmin(req)){
-        res.jason({
-            message : "Please login as administrator to add products",
-        })
-    }
-
-
+  if (!isAdmin(req)) {
+    res.jason({
+      message: "Please login as administrator to add products",
+    });
+  }
 
   const product = new Product(newProductData);
 
@@ -24,4 +21,13 @@ export function createProduct(req, res) {
         message: error,
       });
     });
+}
+
+
+export function getProduct(req,res){
+    Product.find({}).then((products) =>{
+        res.jason({
+            products
+        })
+    })
 }
