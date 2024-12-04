@@ -1,65 +1,88 @@
 import User from "../models/User.js";
-import bcrypt from 'bcrypt';    //hashing
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt"; //hashing
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-dotenv.config()
-
-
+dotenv.config();
 
 //create user
-export function createUser(req, res){
+export function createUser(req, res) {
+  //---------hashing--------//
+  const newUserData = req.body;
 
-    //---------hashing--------//
-    const newUserData = req.body
+  if (newUserData.type == "admin") {
+    if (req.user == null) {
+      res.json({
+        message: "Please login as administrator to create admin accounts",
+      });
+      return;
+    }
 
-    newUserData.password = bcrypt.hashSync(newUserData.password,10)
-    //----------------------//
+    if (req.user.type != "admin") {
+      res.json({
+        message: "Please login as administratoruuuuuuuuuu to create accounts",
+      });
+      return;
+    }
+  }
 
-    const user = new User(newUserData)
+  newUserData.password = bcrypt.hashSync(newUserData.password, 10);
+  //----------------------//
 
-    user.save().then(() => {
-        res.json({
-            message : "User Created"
-        })
-    }).catch(() => {
-        res.json({
-            message : "User not created"
-        })
+  const user = new User(newUserData);
+
+  user
+    .save()
+    .then(() => {
+      res.json({
+        message: "User Created",
+      });
     })
-
+    .catch(() => {
+      res.json({
+        message: "User not created",
+      });
+    });
 }
 
+export function loginUser(req, res) {
+  User.find({ email: req.body.email }).then((users) => {
+    if (users.length == 0) {
+      res.json({
+        message: "user not found",
+      });
+    } else {
+      const user = users[0];
 
-export function loginUser(req,res){
+      const isPasswordCorrect = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
 
-    User.find({email : req.body.email}).then(
-        (users) =>{
-            if(users.length == 0){
-                res.json({
-                    message : "user not found"
-                })
-            }
-            else{
-                const user = users[0]
+      if (isPasswordCorrect) {
+        const token = jwt.sign(
+          {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            isBlocked: user.isBlocked,
+            type: user.type,
+            profilePicture: user.profilePicture,
+            
+          },process.env.SECRET
+          
+        );
 
-                const isPasswordCorrect = bcrypt.compareSync(req.body.password,user.password)
-
-                if(isPasswordCorrect){
-                   const token =  jwt.sign({user} , process.env.SECRET)
-                   res.json({
-                    message : "User Loged in",
-                    token : token
-                   })
-                }
-                else{
-                    res.json({
-                        message : "Wrong Password"
-                    })
-                }
-            }
-        }
-    )
-
+        res.json({
+          message: "User Loged in",
+          token: token,
+        });
+      } else {
+        res.json({
+          message: "Wrong Password",
+        });
+      }
+    }
+  });
 }
 
-
+//manjitha@example.com - securePassword123 - admin

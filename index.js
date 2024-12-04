@@ -31,6 +31,7 @@ app.use((req, res, next) => {
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
       if (!error) {
         req.user = decoded;
+        
       }
     });
   }
