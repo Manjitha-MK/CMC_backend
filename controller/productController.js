@@ -3,7 +3,7 @@ import { isAdmin } from "./userController.js";
 
 export function createProduct(req, res) {
   if (!isAdmin(req)) {
-    res.jason({
+    res.json({
       message: "Please login as administrator to add products",
     });
   }
@@ -12,12 +12,12 @@ export function createProduct(req, res) {
 
   Product.save()
     .then(() => {
-      res.jason({
+      res.json({
         message: "Product created",
       });
     })
     .catch(() => {
-      res.jason({
+      res.json({
         message: error,
       });
     });
@@ -26,7 +26,7 @@ export function createProduct(req, res) {
 
 export function getProduct(req,res){
     Product.find({}).then((products) =>{
-        res.jason({
+        res.json({
             products
         })
     })

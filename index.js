@@ -32,7 +32,6 @@ app.use((req, res, next) => {
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
       if (!error) {
         req.user = decoded;
-        
       }
     });
   }
@@ -43,7 +42,7 @@ app.use((req, res, next) => {
 //---------------------------------//
 
 app.use("/api/users", userRouter);
-app.use("/api/products",productRouter)
+app.use("/api/products", productRouter);
 
 app.listen(5000, () => {
   console.log("server is running on port 5000");
