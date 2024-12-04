@@ -95,4 +95,15 @@ export function isAdmin(req) {
   return true;
 }
 
+export function isCustomer(req){
+  if (req.user == null) {
+    return false;
+  }
+  if (req.user != "customer") {
+    return false;
+  }
+
+  return true;
+}
+
 //manjitha@example.com - securePassword123 - admin
