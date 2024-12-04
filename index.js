@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
 
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
 import productRouter from "./routes/productRouter.js";
 dotenv.config();
 

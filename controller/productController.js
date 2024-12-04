@@ -6,28 +6,31 @@ export function createProduct(req, res) {
     res.json({
       message: "Please login as administrator to add products",
     });
+    return;
   }
+
+  const newProductData = req.body;
 
   const product = new Product(newProductData);
 
-  Product.save()
+  product
+    .save()
     .then(() => {
       res.json({
         message: "Product created",
       });
     })
-    .catch(() => {
+    .catch((error) => {
       res.json({
         message: error,
       });
     });
 }
 
-
-export function getProduct(req,res){
-    Product.find({}).then((products) =>{
-        res.json({
-            products
-        })
-    })
+export function getProduct(req, res) {
+  Product.find({}).then((products) => {
+    res.json({
+      products,
+    });
+  });
 }
