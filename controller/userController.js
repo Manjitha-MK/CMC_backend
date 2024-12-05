@@ -99,7 +99,7 @@ export function isCustomer(req){
   if (req.user == null) {
     return false;
   }
-  if (req.user != "customer") {
+  if (req.user.type != "customer") {
     return false;
   }
 
@@ -107,3 +107,4 @@ export function isCustomer(req){
 }
 
 //manjitha@example.com - securePassword123 - admin
+//manjitha@example.com - securePassword123 - customer
