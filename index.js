@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import cors from "cors"
 
 import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
@@ -13,6 +14,7 @@ dotenv.config();
 const app = express();
 
 const mongoURL = process.env.MONGO_DB_URI;
+app.use(cors());
 
 mongoose.connect(mongoURL, {});
 const connection = mongoose.connection;
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
       }
     });
   }
-  
+
   next();
 });
 
