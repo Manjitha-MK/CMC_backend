@@ -32,11 +32,12 @@ app.use((req, res, next) => {
   if (token != null) {
     jwt.verify(token, process.env.SECRET, (error,decoded) => {
       if (!error) {
+        console.log(decoded);
         req.user = decoded;
       }
     });
   }
-
+  
   next();
 });
 
