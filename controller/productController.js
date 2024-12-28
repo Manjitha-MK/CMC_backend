@@ -21,7 +21,7 @@ export function createProduct(req, res) {
       });
     })
     .catch((error) => {
-      res.status(404).json({
+      res.status(403).json({
         message: error,
       });
     });
