@@ -84,7 +84,7 @@ export function updateProduct(req,res){
   })
 }
 
-export async function getProductById(){
+export async function getProductById(req,res){
 
   try{
     const productId = req.params.productId
