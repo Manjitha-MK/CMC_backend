@@ -92,3 +92,61 @@ export async function getOrders(req,res){
       })
     }
   }
+
+  export async function getQuote(req,res){
+    //take the latest product Id
+    try{
+
+        const newOrderData = req.body
+
+        const newProductArray = []
+
+        let total = 0;
+        let labeledTotal=0;
+
+
+        for(let i=0; i<newOrderData.orderedItems.length; i++){
+            
+            const product = await Product.findOne({
+                productId : newOrderData.orderedItems[i].productId
+            })
+
+            
+            if(product == null){
+                res.json({
+                    message : "Product with id "+newOrderData.orderedItems[i].productId+" not found"
+                })
+                return
+            }
+
+            labeledTotal += product.price * newOrderData.orderedItems[i].quantity
+            total += product.lastPrice *  newOrderData.orderedItems[i].quantity
+
+            newProductArray[i] = {
+                name : product.productName,
+                price : product.lastPrice,
+                labeledPrice : product.price,
+                quantity : newOrderData.orderedItems[i].quantity,
+                image : product.images[0]
+            }
+
+        }
+        console.log(newProductArray)
+
+        newOrderData.orderedItems = newProductArray
+        newOrderData.total = total;
+
+        res.json({
+            orderedItems: newProductArray,
+            total : total,
+            labeledTotal : labeledTotal
+        })
+
+
+
+    }catch(error){
+        res.status(500).json({
+            message : error.message
+        })
+    }
+  }

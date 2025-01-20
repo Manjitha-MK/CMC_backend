@@ -35,31 +35,30 @@ export function getProduct(req, res) {
   });
 }
 
-export function deleteProduct(req,res){
+export function deleteProduct(req, res) {
   if (!isAdmin(req)) {
     res.status(403).json({
       message: "Please login as administrator to add products",
     });
     return;
   }
-  
-  const productId = req.params.productId
 
-  Product.deleteOne(
-    {productId : productId}
-  ).then(()=>{
-    res.json({
-      message : "Product deleted"
-    })
-  }).catch((error)=>{
-    res.status(403).json({
-      message: error
-    })
-  })
+  const productId = req.params.productId;
 
+  Product.deleteOne({ productId: productId })
+    .then(() => {
+      res.json({
+        message: "Product deleted",
+      });
+    })
+    .catch((error) => {
+      res.status(403).json({
+        message: error,
+      });
+    });
 }
 
-export function updateProduct(req,res){
+export function updateProduct(req, res) {
   if (!isAdmin(req)) {
     res.status(403).json({
       message: "Please login as administrator to add products",
@@ -70,32 +69,28 @@ export function updateProduct(req,res){
   const productId = req.params.productId;
   const newProductData = req.body;
 
-  Product.updateOne(
-    {productId : productId},
-    newProductData
-  ).then(()=>{
-    res.json({
-      message : "Product Update",
+  Product.updateOne({ productId: productId }, newProductData)
+    .then(() => {
+      res.json({
+        message: "Product Update",
+      });
     })
-  }).catch((error)=>{
-    res.status(500).json({
-      message : error
-    })
-  })
+    .catch((error) => {
+      res.status(500).json({
+        message: error,
+      });
+    });
 }
 
-export async function getProductById(req,res){
+export async function getProductById(req, res) {
+  try {
+    const productId = req.params.productId;
 
-  try{
-    const productId = req.params.productId
-
-    const product = await Product.findOne({productId : productId})
-    res.json(product)
-  }catch(e){
+    const product = await Product.findOne({ productId: productId });
+    res.json(product);
+  } catch (e) {
     res.status(500).json({
-      e
-    })
-
+      e,
+    });
   }
- 
 }
