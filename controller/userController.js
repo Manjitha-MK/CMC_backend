@@ -113,5 +113,7 @@ export function isCustomer(req){
   return true;
 }
 
+
+
 //manjitha@example.com - securePassword123 - admin
-//manjitha@example.com - securePassword123 - customer
+//manjitha2@example.com - securePassword123 - customer
