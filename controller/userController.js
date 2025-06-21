@@ -180,5 +180,13 @@ export async function googleLogin(req,res){
 
 }
 
+export function getAllUsers(req,res){
+  User.find({}).then((users) =>{
+    res.json({
+      users,
+    })
+  })
+}
+
 //manjitha@example.com - securePassword123 - admin
 //manjitha2@example.com - securePassword123 - customer
